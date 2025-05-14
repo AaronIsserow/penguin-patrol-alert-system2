@@ -4,7 +4,7 @@
 A web application for managing and monitoring penguin patrol alerts. This project was developed as part of the EEE4113F course at the University of Cape Town.
 
 ## Team Members
-- Aaron Isserow and eman
+- Aaron Isserow, Emanuele Vichi and Ethan Faraday
 
 ## Project Goals
 - Create a user-friendly interface for monitoring penguin patrols
@@ -92,13 +92,7 @@ This project is created for educational purposes as part of the EEE4113F course 
 
 ## Contact
 For any questions or concerns, please contact:
-- Aaron Isserow (aaron.isserow@uct.ac.za)
-
-## Test Commit
-This is a test commit to verify Git functionality.
-
-## Deployment
-The application can be deployed to any static hosting service that supports Node.js applications.
+- Aaron Isserow (aaron.isserow@gmail.com)
 
 ## Environment Variables
 Create a `.env` file in the root directory with the following variables:
@@ -111,16 +105,3 @@ VITE_OPENAI_API_KEY=your_openai_api_key
 You can get these values from:
 - Supabase: Project Settings > API
 - OpenAI: API Keys section of your OpenAI account
-
-## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Git Test
-This line was added to test Git push functionality.
-
-## GitHub Desktop Test
-This line was added to verify GitHub Desktop connection.
