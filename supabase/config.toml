@@ -1,0 +1,5 @@
+
+project_id = "ngmqdttrndpkuppywohg"
+
+[functions.send-detection-alert]
+verify_jwt = false
