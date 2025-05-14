@@ -109,3 +109,6 @@ The application can be deployed to any static hosting service that supports Node
 
 ## Git Test
 This line was added to test Git push functionality.
+
+## GitHub Desktop Test
+This line was added to verify GitHub Desktop connection.
