@@ -100,6 +100,18 @@ This is a test commit to verify Git functionality.
 ## Deployment
 The application can be deployed to any static hosting service that supports Node.js applications.
 
+## Environment Variables
+Create a `.env` file in the root directory with the following variables:
+```env
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_OPENAI_API_KEY=your_openai_api_key
+```
+
+You can get these values from:
+- Supabase: Project Settings > API
+- OpenAI: API Keys section of your OpenAI account
+
 ## Contributing
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
