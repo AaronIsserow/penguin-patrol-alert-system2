@@ -1,9 +1,12 @@
+// InfoBox: Shows system info and perimeter status
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { usePerimeterStatus } from "@/hooks/usePerimeterStatus";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// Main info box component
 const InfoBox: React.FC = () => {
+  // Fetch perimeter status data
   const { perimeters, loading, error } = usePerimeterStatus();
 
   return (
@@ -13,11 +16,11 @@ const InfoBox: React.FC = () => {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
+          {/* System description */}
           <p className="text-sm">
             This system acts as a sensing and tracking system to protect a colony of penguins 
             at Stoney Point using a deterrent system.
           </p>
-          
           <div>
             <h3 className="font-semibold mb-2">Perimeter Status:</h3>
             <div className="grid grid-cols-2 gap-2">
@@ -31,10 +34,12 @@ const InfoBox: React.FC = () => {
                   </div>
                 ))
               ) : error ? (
+                // Error message
                 <div className="col-span-2 text-sm text-destructive">
                   Failed to load perimeter statuses
                 </div>
               ) : (
+                // Show perimeter status for each zone
                 perimeters.map((perimeter) => (
                   <div key={perimeter.zone} className="flex items-center gap-2 p-2 border rounded-md">
                     <div className={`w-3 h-3 rounded-full ${perimeter.status ? 'bg-green-500' : 'bg-red-500'}`}></div>

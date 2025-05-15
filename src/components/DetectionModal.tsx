@@ -1,3 +1,4 @@
+// DetectionModal: Real-time alert dialog for new detections
 import React, { useEffect, useRef } from "react";
 import { 
   AlertDialog, 
@@ -28,11 +29,13 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
 }) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const actionRef = useRef<HTMLButtonElement>(null);
+  // Ref for alarm sound
   const audioRef = useRef<HTMLAudioElement | null>(
     typeof Audio !== 'undefined' ? new Audio('/alarm.mp3') : null
   );
   const { isAdmin, isFieldAgent } = useAuth();
 
+  // Play alarm sound on open, stop on close
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.play().catch(error => {
@@ -48,6 +51,7 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
     };
   }, []);
 
+  // Handle alert acknowledgment and stop alarm
   const handleAcknowledge = async () => {
     if (detection.id) {
       // Stop the alarm sound
@@ -60,17 +64,13 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
     }
   };
 
+  // Stop alarm and open live camera feed
   const handleViewLiveFeed = () => {
-    // Stop the alarm sound when viewing live feed
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-    
-    // Close the modal
     onClose();
-    
-    // After a short delay, find and click the camera button
     setTimeout(() => {
       const cameraButtons = document.querySelectorAll('button');
       for (const button of cameraButtons) {
@@ -82,9 +82,10 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
     }, 100);
   };
 
-  // Determine if user can acknowledge alerts
+  // Only admins/field agents can acknowledge
   const canAcknowledge = isAdmin || isFieldAgent;
 
+  // Render alert dialog with details and actions
   return (
     <AlertDialog open={true} onOpenChange={(open) => !open && onClose()}>
       <AlertDialogContent>

@@ -1,3 +1,4 @@
+// Chatbot: Interactive assistant for penguin and wildlife questions
 import React, { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,11 +8,13 @@ import { Loader2, Send } from "lucide-react";
 const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 const MAX_MESSAGES = 10;
 
+// Message type for chat history
 interface Message {
   sender: "user" | "bot";
   text: string;
 }
 
+// Fun prompts for initial bot message
 const funPrompts = [
   "Ask me about penguin safety! 🐧",
   "Curious about honey badgers? Just ask! 🦡",
@@ -20,6 +23,7 @@ const funPrompts = [
   "Try: 'How can we protect penguin colonies?'"
 ];
 
+// Allowed keywords for relevant questions
 const ALLOWED_KEYWORDS = [
   "penguin",
   "penguins",
@@ -36,12 +40,15 @@ const ALLOWED_KEYWORDS = [
   "conservation"
 ];
 
+// Check if question is relevant
 const isRelevantQuestion = (text: string) => {
   const lower = text.toLowerCase();
   return ALLOWED_KEYWORDS.some(keyword => lower.includes(keyword));
 };
 
+// Main chatbot component
 const Chatbot: React.FC = () => {
+  // State for chat messages, input, loading, errors, and message count
   const [messages, setMessages] = useState<Message[]>([
     { sender: "bot", text: funPrompts[Math.floor(Math.random() * funPrompts.length)] }
   ]);
@@ -51,6 +58,7 @@ const Chatbot: React.FC = () => {
   const [messageCount, setMessageCount] = useState(0);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
+  // Handle sending a message
   const sendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!input.trim() || loading || messageCount >= MAX_MESSAGES) return;
@@ -66,6 +74,7 @@ const Chatbot: React.FC = () => {
     setMessageCount((c) => c + 1);
 
     try {
+      // Call OpenAI API for chatbot response
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -110,6 +119,7 @@ const Chatbot: React.FC = () => {
         </div>
       </CardHeader>
       <CardContent className="flex-1 overflow-y-auto space-y-2 bg-white rounded-md p-2" style={{ maxHeight: 320 }}>
+        {/* Render chat messages */}
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
             <div className={`rounded-lg px-3 py-2 max-w-[80%] text-sm ${msg.sender === "user" ? "bg-blue-200 text-blue-900" : "bg-blue-100 text-blue-800"}`}>
@@ -128,6 +138,7 @@ const Chatbot: React.FC = () => {
       </CardContent>
       <CardFooter className="flex flex-col gap-2">
         {error && <div className="text-xs text-red-500 mb-1">{error}</div>}
+        {/* Input form for user questions */}
         <form onSubmit={sendMessage} className="flex gap-2 w-full">
           <Input
             value={input}

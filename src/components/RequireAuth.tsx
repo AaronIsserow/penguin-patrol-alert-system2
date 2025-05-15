@@ -1,14 +1,17 @@
+// RequireAuth: Protects routes and components based on authentication and role
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 
+// Props for RequireAuth (children and optional role requirements)
 interface RequireAuthProps {
   children: React.ReactNode;
   requireAdmin?: boolean;
   requireFieldAgent?: boolean;
 }
 
+// Main auth guard component
 const RequireAuth: React.FC<RequireAuthProps> = ({ 
   children, 
   requireAdmin = false,
@@ -17,7 +20,7 @@ const RequireAuth: React.FC<RequireAuthProps> = ({
   const { user, profile, isLoading, isAdmin, isFieldAgent } = useAuth();
   const location = useLocation();
 
-  // Debug logging
+  // Debug logging for user role
   useEffect(() => {
     if (user && profile) {
       console.log("Current user role:", profile.role);
@@ -26,6 +29,7 @@ const RequireAuth: React.FC<RequireAuthProps> = ({
     }
   }, [user, profile, isAdmin, isFieldAgent]);
 
+  // Show loading spinner while auth is loading
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -34,22 +38,24 @@ const RequireAuth: React.FC<RequireAuthProps> = ({
     );
   }
 
+  // Redirect to login if not authenticated
   if (!user) {
-    // Redirect to the login page if not authenticated
     return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
-  // Check role requirements
+  // Check for admin role if required
   if (requireAdmin && !isAdmin) {
     console.log("Access denied: Admin role required");
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
+  // Check for field agent role if required
   if (requireFieldAgent && !isFieldAgent && !isAdmin) {
     console.log("Access denied: Field Agent role required");
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
+  // Render children if access is allowed
   return <>{children}</>;
 };
 

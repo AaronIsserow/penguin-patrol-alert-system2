@@ -1,3 +1,4 @@
+// AddAlertForm: Form for simulating a detection event (admin only)
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,33 +8,33 @@ import { addDetection } from "@/services/detectionService";
 import { useAuth } from "@/context/AuthContext";
 import { AlertCircle } from "lucide-react";
 
+// Props for AddAlertForm (optional callback after alert is added)
 interface AddAlertFormProps {
   onAlertAdded?: () => void;
 }
 
+// Main form component
 const AddAlertForm: React.FC<AddAlertFormProps> = ({ onAlertAdded }) => {
+  // Form state
   const [location, setLocation] = useState("Perimeter A");
   const [action, setAction] = useState("No action");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { isAdmin } = useAuth();
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     setIsSubmitting(true);
-    
     try {
       await addDetection({
         location,
         time: new Date().toISOString(),
         action_taken: action,
       });
-      
       // Call the callback if provided
       if (onAlertAdded) {
         onAlertAdded();
       }
-      
       // Reset action (optional)
       setAction("No action");
     } catch (error) {
@@ -43,6 +44,7 @@ const AddAlertForm: React.FC<AddAlertFormProps> = ({ onAlertAdded }) => {
     }
   };
 
+  // If not admin, show message instead of form
   if (!isAdmin) {
     return (
       <Card>
@@ -61,6 +63,7 @@ const AddAlertForm: React.FC<AddAlertFormProps> = ({ onAlertAdded }) => {
     );
   }
 
+  // Render the form for admins
   return (
     <Card>
       <CardHeader>
@@ -68,6 +71,7 @@ const AddAlertForm: React.FC<AddAlertFormProps> = ({ onAlertAdded }) => {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Location selection */}
           <div className="space-y-2">
             <Label htmlFor="location">Location</Label>
             <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
@@ -82,7 +86,7 @@ const AddAlertForm: React.FC<AddAlertFormProps> = ({ onAlertAdded }) => {
               </SelectContent>
             </Select>
           </div>
-          
+          {/* Action selection */}
           <div className="space-y-2">
             <Label htmlFor="action">Action Taken</Label>
             <Select value={action} onValueChange={setAction} disabled={isSubmitting}>
@@ -95,7 +99,7 @@ const AddAlertForm: React.FC<AddAlertFormProps> = ({ onAlertAdded }) => {
               </SelectContent>
             </Select>
           </div>
-          
+          {/* Submit button */}
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Processing..." : "Simulate Detection"}
           </Button>

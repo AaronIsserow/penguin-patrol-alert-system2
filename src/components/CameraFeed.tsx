@@ -1,3 +1,4 @@
+// CameraFeed: Shows live video stream from the camera in a dialog
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -6,6 +7,7 @@ import { Camera } from "lucide-react";
 const CAMERA_URL = "http://192.168.0.214:5000/video_feed"; // Use your Pi's actual IP
 const CONTROLLER_URL = "http://192.168.0.214:8000"; // Use your Pi's actual IP
 
+// Main camera feed component
 const CameraFeed: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -22,6 +24,7 @@ const CameraFeed: React.FC = () => {
           <DialogTitle>Live Camera Feed</DialogTitle>
         </DialogHeader>
         <div className="relative aspect-video w-full bg-muted flex items-center justify-center">
+          {/* Live video stream from camera */}
           <img
             src={CAMERA_URL}
             alt="Live Camera Feed"
@@ -33,11 +36,13 @@ const CameraFeed: React.FC = () => {
   );
 };
 
+// PiControl: Controls for starting/stopping the camera/detector
 const PiControl: React.FC = () => {
   const [isRunning, setIsRunning] = useState<boolean | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Fetch camera/detector status from backend
   const fetchStatus = async () => {
     try {
       setError(null);
@@ -51,12 +56,14 @@ const PiControl: React.FC = () => {
     }
   };
 
+  // Poll status every 3 seconds
   useEffect(() => {
     fetchStatus();
     const interval = setInterval(fetchStatus, 3000); // Poll every 3s
     return () => clearInterval(interval);
   }, []);
 
+  // Handle start/stop button click
   const handleToggle = async () => {
     setError(null);
     const endpoint = isRunning ? "stop" : "start";

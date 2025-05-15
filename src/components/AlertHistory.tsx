@@ -1,4 +1,4 @@
-
+// AlertHistory: Displays a table of past detection alerts
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,11 +13,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Detection } from "@/types/detection";
 
+// Props for AlertHistory (list of detections, optional highlight)
 interface AlertHistoryProps {
   detections: Detection[];
   currentDetectionId?: string;
 }
 
+// Main alert history component
 const AlertHistory: React.FC<AlertHistoryProps> = ({ 
   detections, 
   currentDetectionId 
@@ -42,6 +44,7 @@ const AlertHistory: React.FC<AlertHistoryProps> = ({
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {/* Render each detection as a table row */}
                 {sortedDetections.map((detection) => (
                   <TableRow key={detection.id} className={detection.id === currentDetectionId ? "bg-muted" : ""}>
                     <TableCell className="font-mono whitespace-nowrap">
@@ -59,6 +62,7 @@ const AlertHistory: React.FC<AlertHistoryProps> = ({
               </TableBody>
             </Table>
           ) : (
+            // Show message if no history
             <div className="text-center text-muted-foreground p-8">
               No detection history available
             </div>
