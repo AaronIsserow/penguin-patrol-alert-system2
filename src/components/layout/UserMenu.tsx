@@ -1,3 +1,4 @@
+// UserMenu: User profile dropdown menu in the header
 import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -8,9 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 
 const UserMenu: React.FC = () => {
+  // Get user info and auth actions from context
   const { user, profile, signOut, isAdmin, isFieldAgent, isViewer, refreshProfile } = useAuth();
 
-  // Attempt to refresh profile on mount
+  // Refresh user profile when menu mounts
   useEffect(() => {
     if (user) {
       console.log("UserMenu: Refreshing profile on mount");
@@ -18,6 +20,7 @@ const UserMenu: React.FC = () => {
     }
   }, [user, refreshProfile]);
 
+  // If not logged in, show login button
   if (!user) {
     return (
       <Button variant="outline" asChild>
@@ -29,6 +32,7 @@ const UserMenu: React.FC = () => {
   // Debug: Log the role being displayed
   console.log("[DEBUG] UserMenu displaying role:", profile?.role);
 
+  // Show a badge for the user's role
   const getRoleBadge = () => {
     if (isAdmin) {
       return <Badge className="bg-red-500">Admin</Badge>;
@@ -39,6 +43,7 @@ const UserMenu: React.FC = () => {
     }
   };
 
+  // Handle manual refresh of user role
   const handleRefreshRole = async () => {
     toast({
       title: "Refreshing Profile",
@@ -57,6 +62,7 @@ const UserMenu: React.FC = () => {
   };
 
   return (
+    // Dropdown menu for user actions
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2 min-w-[120px]">
