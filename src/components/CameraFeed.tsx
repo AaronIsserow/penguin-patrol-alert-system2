@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Camera } from "lucide-react";
 
-const CAMERA_URL = "http://192.168.0.214:5000/video_feed"; // Use your Pi's actual IP
-const CONTROLLER_URL = "http://192.168.0.214:8000"; // Use your Pi's actual IP
+const CAMERA_URL = "http://172.20.10.12:5000/video_feed"; // Use your Pi's actual IP
+const CONTROLLER_URL = "http://172.20.10.12:8000"; // Use your Pi's actual IP
 
 // Main camera feed component
 const CameraFeed: React.FC = () => {
