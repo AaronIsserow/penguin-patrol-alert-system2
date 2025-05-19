@@ -1,6 +1,6 @@
 // AlertHistory: Displays a table of past detection alerts
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
   Table, 
@@ -11,18 +11,23 @@ import {
   TableRow 
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import { Detection } from "@/types/detection";
+import { acknowledgeAllDetections } from "@/services/detectionService";
+import { useAuth } from "@/context/AuthContext";
 
 // Props for AlertHistory (list of detections, optional highlight)
 interface AlertHistoryProps {
   detections: Detection[];
   currentDetectionId?: string;
+  onRefresh?: () => void;
 }
 
 // Main alert history component
 const AlertHistory: React.FC<AlertHistoryProps> = ({ 
   detections, 
-  currentDetectionId 
+  currentDetectionId
 }) => {
   // Sort detections by time (newest first)
   const sortedDetections = [...detections].sort(
@@ -31,6 +36,9 @@ const AlertHistory: React.FC<AlertHistoryProps> = ({
 
   return (
     <Card className="h-full">
+      <CardHeader>
+        <CardTitle>Alert History</CardTitle>
+      </CardHeader>
       <CardContent className="p-0">
         <ScrollArea className="h-[500px]">
           {sortedDetections.length > 0 ? (

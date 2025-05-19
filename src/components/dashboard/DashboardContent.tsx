@@ -40,6 +40,9 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
     );
   }
 
+  // State to track if countdown is active
+  const [cameraCountdown, setCameraCountdown] = React.useState(false);
+
   return (
     <div className="container">
       {/* Top: Status indicator */}
@@ -83,13 +86,14 @@ const DashboardContent: React.FC<DashboardContentProps> = ({
             <AlertHistoryDialog 
               detections={recentDetections}
               currentDetectionId={newestDetection?.id}
+              onRefresh={onFetchData}
             />
           </div>
         </div>
         {/* Right column: Camera controls, feed, info, simulate detection */}
         <div className="space-y-6">
-          <PiControl />
-          <CameraFeed />
+          <PiControl onCountdownChange={setCameraCountdown} />
+          <CameraFeed cameraDisabled={cameraCountdown} />
           <InfoBox />
           <AddAlertForm onAlertAdded={onFetchData} />
         </div>

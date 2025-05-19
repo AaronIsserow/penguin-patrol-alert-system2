@@ -11,22 +11,35 @@ import { Button } from "@/components/ui/button";
 import { LayoutList, Download } from "lucide-react";
 import AlertHistory from "@/components/AlertHistory";
 import { Detection } from "@/types/detection";
+import { supabase } from "@/integrations/supabase/client";
 
 // Props for AlertHistoryDialog (detections and optional highlight)
 interface AlertHistoryDialogProps {
   detections: Detection[];
   currentDetectionId?: string;
+  onRefresh?: () => void;
 }
 
 // Main dialog component
 const AlertHistoryDialog: React.FC<AlertHistoryDialogProps> = ({ 
   detections,
-  currentDetectionId 
+  currentDetectionId,
+  onRefresh
 }) => {
   // Handle CSV export of alert history
-  const handleDownloadCSV = () => {
+  const handleDownloadCSV = async () => {
+    // Fetch the most recent 50 detections from Supabase
+    const { data, error } = await supabase
+      .from("detections")
+      .select("*")
+      .order("time", { ascending: false })
+      .limit(50);
+    if (error) {
+      alert("Failed to fetch detections for CSV export.");
+      return;
+    }
     // Sort detections by time (newest first)
-    const sortedDetections = [...detections].sort(
+    const sortedDetections = [...data].sort(
       (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
     );
     // Create CSV content
@@ -76,6 +89,7 @@ const AlertHistoryDialog: React.FC<AlertHistoryDialogProps> = ({
           <AlertHistory 
             detections={detections}
             currentDetectionId={currentDetectionId}
+            onRefresh={onRefresh}
           />
         </div>
       </DialogContent>

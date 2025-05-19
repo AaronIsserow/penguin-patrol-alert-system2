@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { AlertCircle } from "lucide-react";
 import { Detection } from "@/types/detection";
-import { acknowledgeDetection } from "@/services/detectionService";
+import { acknowledgeDetection, acknowledgeAllDetections } from "@/services/detectionService";
 import { useAuth } from "@/context/AuthContext";
 
 interface DetectionModalProps {
@@ -54,7 +54,6 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
   // Handle alert acknowledgment and stop alarm
   const handleAcknowledge = async () => {
     if (detection.id) {
-      // Stop the alarm sound
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
@@ -64,21 +63,25 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
     }
   };
 
+  // Handle acknowledge all
+  const handleAcknowledgeAll = async () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    await acknowledgeAllDetections();
+    onAcknowledged();
+  };
+
   // Stop alarm and open live camera feed
-  const handleViewLiveFeed = () => {
+  const handleViewLiveCamera = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
     onClose();
     setTimeout(() => {
-      const cameraButtons = document.querySelectorAll('button');
-      for (const button of cameraButtons) {
-        if (button.textContent?.includes('View Live Camera')) {
-          button.click();
-          break;
-        }
-      }
+      window.dispatchEvent(new Event('open-camera-dialog'));
     }, 100);
   };
 
@@ -103,32 +106,44 @@ const DetectionModal: React.FC<DetectionModalProps> = ({
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter className="flex flex-col sm:flex-row gap-2">
+        <AlertDialogFooter className="flex flex-wrap gap-2 justify-center">
           <AlertDialogCancel ref={cancelRef} asChild>
-            <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
+            <Button variant="outline" onClick={onClose} size="sm" className="w-auto min-w-0">
               Close
             </Button>
           </AlertDialogCancel>
-          
           {canAcknowledge && (
-            <AlertDialogAction ref={actionRef} asChild>
-              <Button 
-                variant="default" 
-                className="bg-green-600 hover:bg-green-700 w-full sm:w-auto" 
-                onClick={handleAcknowledge}
-              >
-                Acknowledge Alert
-              </Button>
-            </AlertDialogAction>
+            <>
+              <AlertDialogAction ref={actionRef} asChild>
+                <Button
+                  variant="default"
+                  className="bg-green-600 hover:bg-green-700 w-auto min-w-0"
+                  onClick={handleAcknowledge}
+                  size="sm"
+                >
+                  Acknowledge Alert
+                </Button>
+              </AlertDialogAction>
+              <AlertDialogAction asChild>
+                <Button
+                  variant="outline"
+                  onClick={handleAcknowledgeAll}
+                  size="sm"
+                  className="w-auto min-w-0"
+                >
+                  Acknowledge All
+                </Button>
+              </AlertDialogAction>
+            </>
           )}
-          
           <AlertDialogAction asChild>
-            <Button 
-              variant="default" 
-              className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
-              onClick={handleViewLiveFeed}
+            <Button
+              variant="default"
+              className="bg-blue-600 hover:bg-blue-700 w-auto min-w-0"
+              onClick={handleViewLiveCamera}
+              size="sm"
             >
-              View Live Feed
+              View Live Camera
             </Button>
           </AlertDialogAction>
         </AlertDialogFooter>

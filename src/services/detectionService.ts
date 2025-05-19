@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import { Detection } from "@/types/detection";
 import { toast } from "@/hooks/use-toast";
@@ -223,6 +222,38 @@ export const acknowledgeDetection = async (id: string): Promise<void> => {
     toast({
       title: "Error",
       description: "Failed to acknowledge alert. Please try again.",
+      variant: "destructive",
+    });
+  }
+};
+
+export const acknowledgeAllDetections = async (): Promise<void> => {
+  try {
+    const { error } = await supabase
+      .from("detections")
+      .update({ acknowledged: true })
+      .eq("acknowledged", false);
+    
+    if (error) {
+      console.error("Error acknowledging all detections:", error);
+      handleAuthError(error);
+      toast({
+        title: "Error",
+        description: "Failed to acknowledge alerts. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    toast({
+      title: "All Alerts Acknowledged",
+      description: "All unacknowledged alerts have been marked as acknowledged.",
+    });
+  } catch (error) {
+    console.error("Failed to acknowledge all detections:", error);
+    toast({
+      title: "Error",
+      description: "Failed to acknowledge alerts. Please try again.",
       variant: "destructive",
     });
   }

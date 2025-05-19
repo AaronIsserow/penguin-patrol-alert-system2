@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, Check } from "lucide-react";
 import { Detection } from "@/types/detection";
-import { acknowledgeDetection } from "@/services/detectionService";
+import { acknowledgeDetection, acknowledgeAllDetections } from "@/services/detectionService";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
 
@@ -27,6 +27,11 @@ const AlertCard: React.FC<AlertCardProps> = ({ detection, isCurrent = false }) =
     if (detection.id) {
       await acknowledgeDetection(detection.id);
     }
+  };
+
+  // Handle acknowledge all button click
+  const handleAcknowledgeAll = async () => {
+    await acknowledgeAllDetections();
   };
 
   // Only admins/field agents can acknowledge alerts
@@ -69,13 +74,20 @@ const AlertCard: React.FC<AlertCardProps> = ({ detection, isCurrent = false }) =
       </CardContent>
       {/* Show acknowledge button if current, unacknowledged, and user has permission */}
       {isCurrent && !detection.acknowledged && canAcknowledge && (
-        <CardFooter className="flex justify-center gap-2 border-t pt-3">
+        <CardFooter className="grid grid-cols-2 gap-2 border-t pt-3">
           <Button 
             variant="outline" 
             className="w-full"
             onClick={handleAcknowledge}
           >
             <Check className="w-4 h-4 mr-2" /> Acknowledge
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleAcknowledgeAll}
+          >
+            <Check className="w-4 h-4 mr-2" /> Acknowledge All
           </Button>
         </CardFooter>
       )}
