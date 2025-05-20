@@ -18,8 +18,8 @@ interface Message {
 const funPrompts = [
   "Ask me about penguin safety! 🐧",
   "Curious about honey badgers? Just ask! 🦡",
-  "How do penguins stay safe from predators?",
-  "What makes honey badgers so tough?",
+  "Try: How do penguins stay safe from predators?",
+  "Try: What makes honey badgers so tough?",
   "Try: 'How can we protect penguin colonies?'"
 ];
 
