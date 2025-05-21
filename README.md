@@ -19,3 +19,22 @@ A web application for managing and monitoring penguin patrol alerts. This projec
 - Data visualization and reporting
 - User authentication and authorization
 - Mobile-responsive design
+
+## How to Run
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create a `.env` file in the root directory with your API keys:
+- OpenAI API key for chatbot
+- Supabase credentials
+- Resend API key for emails
+
+3. Start the development server:
+```bash
+npm run dev
+```
+
+The application will be available at `http://localhost:8080`
