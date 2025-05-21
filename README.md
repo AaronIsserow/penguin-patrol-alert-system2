@@ -7,9 +7,8 @@ A web application for managing and monitoring penguin patrol alerts. This projec
 - Aaron Isserow, Emanuele Vichi and Ethan Faraday
 
 ## Project Goals
-- Create a user-friendly interface for monitoring penguin patrols
-- Implement real-time alert system for penguin sightings
-- Provide data visualization for patrol statistics
+- Create a user-friendly interface for monitoring a penguin colony.
+- Implement a real-time alert system for preditor detections.
 
 ## How to Run
 
