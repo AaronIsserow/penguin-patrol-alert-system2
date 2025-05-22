@@ -19,8 +19,16 @@ const CameraFeed: React.FC<{ cameraDisabled?: boolean }> = ({ cameraDisabled = f
     return () => window.removeEventListener('open-camera-dialog', openCamera);
   }, []);
 
+  // Handle dialog state changes
+  const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      window.dispatchEvent(new Event('close-camera-dialog'));
+    }
+  };
+
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
       <DialogTrigger asChild>
         <Button className="w-full gap-2" disabled={cameraDisabled}>
           <Camera className="h-4 w-4" />
@@ -96,6 +104,11 @@ const PiControl: React.FC<{ onCountdownChange?: (countingDown: boolean) => void 
         setLoadingBarActive(true);
         setLoadingBarPercent(0);
         if (onCountdownChange) onCountdownChange(true);
+      } else {
+        // If stopping, immediately stop the loading bar
+        setLoadingBarActive(false);
+        setLoadingBarPercent(0);
+        if (onCountdownChange) onCountdownChange(false);
       }
     } catch {
       setError("Failed to send command to Pi.");

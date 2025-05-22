@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import Header from "@/components/layout/Header";
 import DashboardContent from "@/components/dashboard/DashboardContent";
@@ -10,6 +9,7 @@ import { useNotifications } from "@/hooks/useNotifications";
 
 const Index = () => {
   const [showDetectionModal, setShowDetectionModal] = React.useState<boolean>(false);
+  const [isCameraOpen, setIsCameraOpen] = React.useState<boolean>(false);
   const [settings, setSettings] = useLocalStorage("hbds-settings", {
     alertVolume: 70,
     detectionSensitivity: "Medium"
@@ -27,6 +27,20 @@ const Index = () => {
   const systemTime = useSystemTime();
   const { notificationsEnabled } = useNotifications();
 
+  // Listen for camera dialog state changes
+  useEffect(() => {
+    const handleCameraOpen = () => setIsCameraOpen(true);
+    const handleCameraClose = () => setIsCameraOpen(false);
+    
+    window.addEventListener('open-camera-dialog', handleCameraOpen);
+    window.addEventListener('close-camera-dialog', handleCameraClose);
+    
+    return () => {
+      window.removeEventListener('open-camera-dialog', handleCameraOpen);
+      window.removeEventListener('close-camera-dialog', handleCameraClose);
+    };
+  }, []);
+
   useEffect(() => {
     fetchData();
     const intervalId = setInterval(fetchData, 5000);
@@ -34,10 +48,10 @@ const Index = () => {
   }, [fetchData]);
 
   useEffect(() => {
-    if (newestDetection) {
+    if (newestDetection && !isCameraOpen) {
       setShowDetectionModal(true);
     }
-  }, [newestDetection]);
+  }, [newestDetection, isCameraOpen]);
 
   const handleDetectionAcknowledged = () => {
     fetchData();
