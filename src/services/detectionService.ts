@@ -118,29 +118,29 @@ export const getUnacknowledgedDetections = async (): Promise<Detection[]> => {
 };
 
 // Function to send email alert
-const sendEmailAlert = async (detection: Omit<Detection, "id" | "acknowledged">) => {
-  try {
-    const { error } = await supabase.functions.invoke("send-detection-alert", {
-      body: {
-        location: detection.location,
-        time: detection.time,
-        action_taken: detection.action_taken
-      }
-    });
+// const sendEmailAlert = async (detection: Omit<Detection, "id" | "acknowledged">) => {
+//   try {
+//     const { error } = await supabase.functions.invoke("send-detection-alert", {
+//       body: {
+//         location: detection.location,
+//         time: detection.time,
+//         action_taken: detection.action_taken
+//       }
+//     });
 
-    if (error) {
-      console.error("Error sending email alert:", error);
-      handleAuthError(error);
-      return false;
-    }
+//     if (error) {
+//       console.error("Error sending email alert:", error);
+//       handleAuthError(error);
+//       return false;
+//     }
 
-    console.log("Email alert sent successfully");
-    return true;
-  } catch (error) {
-    console.error("Failed to send email alert:", error);
-    return false;
-  }
-};
+//     console.log("Email alert sent successfully");
+//     return true;
+//   } catch (error) {
+//     console.error("Failed to send email alert:", error);
+//     return false;
+//   }
+// };
 
 export const addDetection = async (detection: Omit<Detection, "id" | "acknowledged">): Promise<void> => {
   try {
@@ -171,11 +171,11 @@ export const addDetection = async (detection: Omit<Detection, "id" | "acknowledg
     }
     
     // Send email alert with the properly formatted time
-    sendEmailAlert({
-      location: detection.location,
-      time: formattedTime,
-      action_taken: detection.action_taken
-    });
+    // sendEmailAlert({
+    //   location: detection.location,
+    //   time: formattedTime,
+    //   action_taken: detection.action_taken
+    // });
     
     // Display the time in the local format for the toast
     const displayTime = formatInTimeZone(localTime, 'Africa/Johannesburg', 'HH:mm:ss');
