@@ -1,30 +1,3 @@
-# Penguin Patrol Alert System
-
-## Project Overview
-A web application for managing and monitoring penguin patrol alerts. This project was developed as part of the EEE4113F course at the University of Cape Town.
-
-## Team Members
-- Aaron Isserow, Emanuele Vichi and Ethan Faraday
-
-## Project Goals
-- Create a user-friendly interface for monitoring a penguin colony.
-- Implement a real-time alert system for preditor detections.
-
-## How to Run
-
-1. Install dependencies:
-
-npm install
-
-
-2. Create a `.env` file in the root directory with your API keys:
-- OpenAI API key for chatbot
-- Supabase credentials
-
-
-3. Start the development server:
-
-npm run dev
 # 🐧 Penguin Patrol Alert System
 
 ## Table of Contents
@@ -103,4 +76,22 @@ Detailed mechanical design ensures precise servo alignment, environmental sealin
 ### CAD & STL Files
 
 All source and exported STLs live in the `MechanicalDesign/` folder:
+design/
+├─ pan_module.f3d pan_module.stl
+├─ tilt_module.f3d tilt_module.stl
+├─ enclosure_base.f3d enclosure_base.stl
+└─ enclosure_lid.f3d enclosure_lid.stl
 
+## Installation & Setup
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/YourOrg/penguin-patrol.git
+   cd penguin-patrol
+2. **Install Dependencies**
+  npm install                  # Frontend & API
+3. Create a .env file in the root directory with your API keys:
+  - OpenAI API key for chatbot
+  - Supabase credentials
+4. Start the development server:
+    npm run dev
