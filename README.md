@@ -7,11 +7,6 @@
 - [Architecture & Tech Stack](#architecture--tech-stack)  
 - [Mechanical Design & 3D Printing](#mechanical-design--3d-printing)  
 - [Installation & Setup](#installation--setup)  
-- [Running the App](#running-the-app)  
-- [Demo Videos](#demo-videos)  
-- [Usage](#usage)  
-- [Contributing](#contributing)  
-
 
 ---
 
@@ -52,6 +47,9 @@
 ## Mechanical Design & 3D Printing
 
 Detailed mechanical design ensures precise servo alignment, environmental sealing, and easy assembly. All parts were 3D-printed and validated with FEA before prototyping.
+
+![Linking v2](https://github.com/user-attachments/assets/4f3c1a33-e654-4a75-ad1e-5428e2d53cee)
+
 ## Assembly
 
 ![Linking v1](https://github.com/user-attachments/assets/3185dab7-32ed-4a40-9421-f90bf5f59b8d)
