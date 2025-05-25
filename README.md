@@ -28,7 +28,8 @@
 
 ### Basic Example Operation
 
-![systemuse](https://github.com/user-attachments/assets/f3e541f0-2ccb-4a13-b62a-a132d3976133)
+![systemuse (2)](https://github.com/user-attachments/assets/1eb72516-5ab7-4643-8b90-9a9de7d6000d)
+
 ---
 
 ## Architecture & Tech Stack
