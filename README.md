@@ -102,7 +102,7 @@ The Penguin Patrol Alert System employs an advanced real-time motion detection a
 - **Hardware:** Raspberry Pi Camera Module V2 NoIR is used for its enhanced infrared sensitivity, combined with optional IR LED illumination for night-time detection.  
 - **Control Integration:** Upon detection, the Python-based control script commands the pan–tilt gimbal servos via GPIO using pigpio, allowing smooth tracking of detected objects within ±90° range.  
 - **Alerting:** Simultaneously, detection events are logged and pushed in real-time to the Supabase backend, enabling live notifications and historical analytics through the web dashboard.  
-- **Configuration:** Parameters such as blur kernel size, threshold values, minimum contour area, and tracking persistence are adjustable in the `config.py` file to optimize system performance under varying environmental conditions.
+- **Configuration:** Parameters such as blur kernel size, threshold values, minimum contour area, and tracking persistence are adjustable in the `motionsense.py` file to optimize system performance under varying environmental conditions.
 
 This comprehensive detection pipeline balances sensitivity with robustness, ensuring reliable predator tracking while minimizing false alarms to protect the penguin colony effectively.
 
