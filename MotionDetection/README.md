@@ -6,9 +6,9 @@ This folder contains the motion detection and control logic used in the automate
 
 ## 📚 Background
 
-### 📷 Motion Detection Overview
+### 📷 Motion Detection Overview (Using OpenCV)
 
-The system uses **frame differencing**, a classic motion detection technique, where each incoming frame is compared against a stabilized background. The steps include:
+The system uses **frame differencing**, a classic motion detection technique, where each incoming frame is compared against a stabilized background. The open source image processing library OpenCV handles the following steps:
 
 - **Frame capture** from the Pi Camera.
 - **Grayscale conversion** and **Gaussian blur** to reduce noise.
