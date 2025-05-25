@@ -5,9 +5,9 @@
 - [Project Overview](#project-overview)  
 - [Key Features](#key-features)  
 - [Architecture & Tech Stack](#architecture--tech-stack)  
-- [Mechanical Design & 3D Printing](#mechanical-design--3d-printing)  
-- [Installation & Setup](#installation--setup)
+- [Mechanical Design & 3D Printing](#mechanical-design--3d-printing)
 - [Motion Detection](#motion-detection)
+- [Installation & Setup](#installation--setup)
 
 ---
 
