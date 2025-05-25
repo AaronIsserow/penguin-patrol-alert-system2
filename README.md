@@ -21,6 +21,7 @@
 
 ---
 
+
 ## Key Features
 
 - 🎥 **Live Video Streaming** with motion-detection overlays  
@@ -30,6 +31,9 @@
 - 📊 **Dashboard & Analytics** with CSV export  
 - 🔧 **Modular Mechanical Design** with 3D-printed submodules
 
+### Basic Example Operation
+
+![systemuse](https://github.com/user-attachments/assets/f3e541f0-2ccb-4a13-b62a-a132d3976133)
 ---
 
 ## Architecture & Tech Stack
@@ -48,6 +52,8 @@
 ## Mechanical Design & 3D Printing
 
 Detailed mechanical design ensures precise servo alignment, environmental sealing, and easy assembly. All parts were 3D-printed and validated with FEA before prototyping.
+## Assembly
+
 ![Linking v1](https://github.com/user-attachments/assets/3185dab7-32ed-4a40-9421-f90bf5f59b8d)
 
 ### Printed Components
