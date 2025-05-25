@@ -1,6 +1,35 @@
 # 🛰️ Motion Detection Subsystem — Turret Project
 
-This folder contains the core motion detection and control scripts for the automated turret system. It includes a background-subtraction-based detection pipeline, integrated servo control for actuation, and a Flask-based backend interface for remote control and monitoring.
+This folder contains the motion detection and control logic used in the automated turret project. It combines lightweight computer vision, real-time hardware actuation, and cloud-based logging to detect and track movement within a camera's field of view.
+
+---
+
+## 📚 Background
+
+### 📷 Motion Detection Overview
+
+The system uses **frame differencing**, a classic motion detection technique, where each incoming frame is compared against a stabilized background. The steps include:
+
+- **Frame capture** from the Pi Camera.
+- **Grayscale conversion** and **Gaussian blur** to reduce noise.
+- **Absolute difference** between the current frame and a reference background.
+- **Thresholding** and **morphological operations** to isolate moving regions.
+- **Contour detection** to identify the largest significant object.
+
+If the detected contour exceeds a pixel area threshold, it's considered significant motion. The center of the bounding box is calculated and used to point the turret in that direction.
+
+> This method is fast and lightweight, ideal for low-power hardware, but is sensitive to lighting changes and assumes a mostly static background.
+
+---
+
+### 🧰 Hardware Architecture
+
+| Component             | Role                                                                 |
+|-----------------------|----------------------------------------------------------------------|
+| Raspberry Pi 3B+      | Main processing unit, runs detection and Flask server.               |
+| Pi Camera V2 NoIR     | Captures frames for processing, with infrared sensitivity for low-light. |
+| Servo Motors (x2)     | Controlled via PWM to adjust turret pan and tilt.                   |
+| IR LED Module (opt.)  | Recommended for improving night detection performance.              |
 
 ---
 
@@ -8,41 +37,39 @@ This folder contains the core motion detection and control scripts for the autom
 
 | File                | Description                                                                 |
 |---------------------|-----------------------------------------------------------------------------|
-| `motionsense5.py`   | Main motion detection script. Captures video, detects motion, controls servos, logs to Supabase, and streams live feed. |
-| `flask_controller.py` | Flask server exposing endpoints to start/stop motion detection and update Supabase system status. |
-| `.env`              | Contains Supabase credentials (not committed to version control).           |
+| `motionsense5.py`   | Captures video, detects motion, controls servos, logs to Supabase, and streams annotated video. |
+| `flask_controller.py` | Flask server exposing `/start`, `/stop`, and `/status` endpoints, also updates system status in Supabase. |
 
 ---
 
 ## ⚙️ motionsense5.py — Motion Detection Engine
 
-- Captures frames from the Pi Camera using `picamera2`.
-- Detects motion via background differencing and contour detection.
-- Controls servo motors (pan & tilt) using `pigpio` to track motion.
-- Logs motion events to a Supabase table (`detections`).
-- Streams annotated video via the `/video_feed` endpoint.
-
-This script is run as a subprocess by the Flask controller.
+- Initializes camera and background model.
+- Detects motion using image differencing + contour filtering.
+- Translates motion coordinates to servo angles using a calibrated FOV.
+- Controls pan and tilt servos via `pigpio`.
+- Logs each detection to a Supabase table with timestamp and location.
+- Streams live video with bounding box overlays via a `/video_feed` endpoint.
 
 ---
 
 ## 🌐 flask_controller.py — Remote API Interface
 
-A minimal Flask app for remote management of the motion subsystem.
+A lightweight Flask server for remote subsystem control:
 
-**Available Endpoints:**
-- `POST /start` — Starts the `motionsense5.py` script.
-- `POST /stop` — Stops the detection script and shuts down servos.
-- `GET /status` — Returns whether detection is currently active.
+**Endpoints:**
+- `POST /start` — Launches `motionsense5.py`.
+- `POST /stop` — Terminates detection and resets servos.
+- `GET /status` — Returns whether detection is active.
 
-Automatically updates Supabase's `perimeters` table at startup and shutdown.
+It also sets the `status` field in Supabase's `perimeters` table to reflect system state (boot, shutdown, and manual control).
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in the root of the folder:
+Create a `.env` file:
 
 ```dotenv
 SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your-secret-api-key
+SUPABASE_KEY=your-supabase-service-role-key
