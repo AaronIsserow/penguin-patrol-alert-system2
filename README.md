@@ -48,6 +48,7 @@
 ## Mechanical Design & 3D Printing
 
 Detailed mechanical design ensures precise servo alignment, environmental sealing, and easy assembly. All parts were 3D-printed and validated with FEA before prototyping.
+![Linking v1](https://github.com/user-attachments/assets/3185dab7-32ed-4a40-9421-f90bf5f59b8d)
 
 ### Printed Components
 
