@@ -35,9 +35,9 @@
 
 | Layer               | Technology                         |
 |---------------------|------------------------------------|
-| **Frontend**        | Next.js, React, Tailwind CSS       |
+| **Frontend**        | React, Tailwind CSS       |
 | **Backend / API**   | Node.js, Supabase (PostgreSQL)     |
-| **Realtime Comm.**  | Supabase Realtime, WebSockets      |
+| **Realtime Comm.**  | Supabase Realtime      |
 | **Vision & Control**| Python, OpenCV, pigpio, Raspberry Pi OS |
 | **3D Modeling**     | Fusion 360 (CAD)                   |
 | **3D Printing**     | Cura / PrusaSlicer                 |
