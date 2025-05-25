@@ -6,7 +6,8 @@
 - [Key Features](#key-features)  
 - [Architecture & Tech Stack](#architecture--tech-stack)  
 - [Mechanical Design & 3D Printing](#mechanical-design--3d-printing)  
-- [Installation & Setup](#installation--setup)  
+- [Installation & Setup](#installation--setup)
+- [Motion Detection](#motion-detection)
 
 ---
 
@@ -87,6 +88,24 @@ design/
 ├─ tilt_module.f3d tilt_module.stl
 ├─ enclosure_base.f3d enclosure_base.stl
 └─ enclosure_lid.f3d enclosure_lid.stl
+
+## Motion Detection
+
+The Penguin Patrol Alert System employs an advanced real-time motion detection algorithm running on a Raspberry Pi with a NoIR camera module. This enables reliable predator detection even under challenging lighting conditions.
+
+- **Algorithm Overview:**  
+  - The system captures continuous frames from the NoIR camera and applies frame differencing to highlight regions of change between consecutive images.  
+  - To reduce noise and false positives caused by environmental factors (e.g., shadows, lighting changes), a Gaussian blur filter is applied before differencing.  
+  - The resulting difference image is thresholded to create a binary mask representing motion regions.  
+  - Contours are extracted from this binary mask and filtered based on area and shape criteria to isolate valid moving objects.  
+  - Temporal filtering tracks object persistence over multiple frames to avoid transient false detections.  
+- **Hardware:** Raspberry Pi Camera Module V2 NoIR is used for its enhanced infrared sensitivity, combined with optional IR LED illumination for night-time detection.  
+- **Control Integration:** Upon detection, the Python-based control script commands the pan–tilt gimbal servos via GPIO using pigpio, allowing smooth tracking of detected objects within ±90° range.  
+- **Alerting:** Simultaneously, detection events are logged and pushed in real-time to the Supabase backend, enabling live notifications and historical analytics through the web dashboard.  
+- **Configuration:** Parameters such as blur kernel size, threshold values, minimum contour area, and tracking persistence are adjustable in the `config.py` file to optimize system performance under varying environmental conditions.
+
+This comprehensive detection pipeline balances sensitivity with robustness, ensuring reliable predator tracking while minimizing false alarms to protect the penguin colony effectively.
+
 
 ## Installation & Setup
 
