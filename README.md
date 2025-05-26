@@ -111,8 +111,8 @@ This comprehensive detection pipeline balances sensitivity with robustness, ensu
 
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/YourOrg/penguin-patrol.git
-   cd penguin-patrol
+   git clone https://github.com/AaronIsserow/penguin-patrol-alert-system2.git
+
 2. **Install Dependencies**
   npm install                  # Frontend & API
 3. Create a .env file in the root directory with your API keys:
