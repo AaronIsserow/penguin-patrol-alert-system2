@@ -50,6 +50,9 @@ export const usePerimeterStatus = () => {
       setPerimeters(prev => prev.map(p => p.zone === zone ? { ...p, status } : p));
     } catch (err: any) {
       setError(err.message || 'Failed to update perimeter status');
+    } finally {
+      // Always fetch latest from Supabase to ensure UI is in sync
+      fetchPerimeters();
     }
   };
 
